@@ -1,0 +1,35 @@
+/* lab-art.css: room scene art rules. Owned by B3 (room-art). Spec 04 sections 4.1 and 7. */
+
+/* Music notes above the turntable: hidden until the record plays. Their
+   translate is in SVG user units (the notes are drawn in screen space). */
+.lab-note {
+  opacity: 0;
+}
+html[data-lab-music] .lab-note {
+  animation: 2.6s ease-out infinite lab-note;
+}
+@keyframes lab-note {
+  0% {
+    opacity: 0;
+    transform: translate(0);
+  }
+  18% {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 0;
+    transform: translate(7px, -28px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-lab-music] .lab-note {
+    opacity: 0.8;
+    animation: none;
+  }
+}
+
+/* The halo ellipse under the floor is rendered but hidden (as in the live
+   site), on every surface that shows the art, not only inside #hero. */
+svg[data-cam] > ellipse[fill="url(#lab-halo)"] {
+  display: none;
+}

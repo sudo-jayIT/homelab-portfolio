@@ -1,0 +1,127 @@
+/*
+ * work.css: projects, websites and experience. Owned by B8 (work). Specs 06, 08.
+ * Theme: Mint Terminal (docs/theme/b.md sections 3.4 and 3.7).
+ *
+ * Unlayered on purpose (like the original): these rules sit outside Tailwind's
+ * layers, so they win over utilities of equal specificity. The one exception
+ * is .glass-card, which lives in @layer components so a utility on the same
+ * element (a hover background, a border colour) still wins over it.
+ */
+
+/*
+ * Glass card surface shared by the section cards that are not MagicCards
+ * (Websites site cards, the About education list, the Contact link cards):
+ * the 80% card glass over a light blur, plus a faint top highlight. The
+ * border colour comes from a utility (border-line-strong) on the element.
+ */
+@layer components {
+  .glass-card {
+    background-color: var(--card-glass);
+    box-shadow: inset 0 1px 0 rgba(214, 255, 233, 0.035);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/*
+ * Experience ticket (spec 08 section 3.2): a grid with a tinted stub and a
+ * body, split by a 2px dashed tear line. Two radial-gradient masks, composited
+ * with intersect, punch semicircle notches where the tear line meets the outer
+ * edges: left and right edges at y = --stub on mobile (stub row on top), top and
+ * bottom edges at x = --stub from md up (stub column on the left). Mask
+ * positions resolve against the border box, so each notch also cuts the 1px
+ * outer border.
+ *
+ * Each notch gets a 1px mint rim (--rim), drawn as two radial gradients in the
+ * ticket's own background. background-origin is the border box so the rims
+ * share the masks' centres; the rim sits just outside the hole, so it reads
+ * as the die-cut edge where the tear line ends.
+ */
+
+.ticket {
+  --stub: 5.5rem;
+  --notch: 0.7rem;
+  --n1: 0px var(--stub);
+  --n2: 100% var(--stub);
+  --rim: #3dfc9a66;
+  display: grid;
+  grid-template-rows: var(--stub) 1fr;
+  background-color: var(--card-glass);
+  background-image:
+    radial-gradient(
+      circle calc(var(--notch) + 1.5px) at var(--n1),
+      transparent calc(var(--notch) - 0.5px),
+      var(--rim) var(--notch),
+      transparent calc(var(--notch) + 1.5px)
+    ),
+    radial-gradient(
+      circle calc(var(--notch) + 1.5px) at var(--n2),
+      transparent calc(var(--notch) - 0.5px),
+      var(--rim) var(--notch),
+      transparent calc(var(--notch) + 1.5px)
+    );
+  background-origin: border-box;
+  background-repeat: no-repeat;
+  border: 1px solid var(--line-strong);
+  border-radius: 1rem;
+  box-shadow: inset 0 1px 0 rgba(214, 255, 233, 0.035);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-mask-image:
+    radial-gradient(circle var(--notch) at var(--n1), transparent 97%, #000),
+    radial-gradient(circle var(--notch) at var(--n2), transparent 97%, #000);
+  mask-image:
+    radial-gradient(circle var(--notch) at var(--n1), transparent 97%, #000),
+    radial-gradient(circle var(--notch) at var(--n2), transparent 97%, #000);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* Solid fallbacks first, then the translucent sRGB mixes (not oklab). */
+.ticket-stub {
+  background: var(--sec, #3dfc9a);
+  border-bottom: 2px dashed var(--sec, #3dfc9a);
+}
+@supports (color: color-mix(in lab, red, red)) {
+  .ticket {
+    --rim: color-mix(in srgb, var(--sec, #3dfc9a) 40%, transparent);
+  }
+  .ticket-stub {
+    background: color-mix(in srgb, var(--sec, #3dfc9a) 7%, transparent);
+    border-bottom: 2px dashed color-mix(in srgb, var(--sec, #3dfc9a) 40%, transparent);
+  }
+}
+
+@media (min-width: 768px) {
+  .ticket {
+    --stub: 13.5rem;
+    --n1: var(--stub) 0px;
+    --n2: var(--stub) 100%;
+    grid-template-rows: none;
+    grid-template-columns: var(--stub) 1fr;
+  }
+  .ticket-stub {
+    border-bottom: 0;
+    border-right: 2px dashed var(--sec, #3dfc9a);
+  }
+  @supports (color: color-mix(in lab, red, red)) {
+    .ticket-stub {
+      border-right: 2px dashed color-mix(in srgb, var(--sec, #3dfc9a) 40%, transparent);
+    }
+  }
+}
+
+/* Barcode strip: a 13px repeating period of 2px, 1px and 3px bars, in mint head at 30%. */
+.ticket-bars {
+  opacity: 0.3;
+  height: 1.4rem;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--mint-head) 0 2px,
+    #0000 2px 5px,
+    var(--mint-head) 5px 6px,
+    #0000 6px 8px,
+    var(--mint-head) 8px 11px,
+    #0000 11px 13px
+  );
+}

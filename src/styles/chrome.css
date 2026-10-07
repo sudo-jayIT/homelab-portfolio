@@ -1,0 +1,17 @@
+/* chrome.css: header, mobile menu and footer extras. Owned by the frame. Spec 02, docs/theme/b.md 3.6. */
+
+/* Active section link: ink text plus a 14 x 2px mint tick 9px below the label (no layout change). */
+.nav-tick {
+  position: relative;
+}
+.nav-tick::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  width: 14px;
+  height: 2px;
+  margin-left: -7px;
+  border-radius: 1px;
+  background: var(--mint);
+}

@@ -1,0 +1,123 @@
+/*
+ * hero.css: the landing hero's room door (spec 03 section 3.7). Owned by B2 (hero).
+ * The .name-block / .name-line rules and name-in keyframes live in base.css;
+ * .par lives in base.css; the .key system lives in keys.css.
+ *
+ * Everything here is UNLAYERED on purpose: `.mini-room .key` and
+ * `.mini-room:hover .key` must beat the layered `.key` rules regardless of
+ * specificity, so hovering anywhere on the door lifts the step key 2px and
+ * pressing the key keeps that lift while its shadow collapses.
+ */
+
+/* 3D tilt toward the pointer (--px/--py come from SkyMotion via [data-sky-vars]). */
+.mini-room-tilt {
+  transform: perspective(1100px) rotateY(calc(var(--px, 0) * 7deg)) rotateX(calc(var(--py, 0) * -5deg));
+  will-change: transform;
+  animation: 0.7s ease-out mini-room-settle;
+}
+/* Only a start frame: eases from untilted to the live, var-driven tilt. */
+@keyframes mini-room-settle {
+  0% {
+    transform: perspective(1100px) rotateY(0) rotateX(0);
+  }
+}
+
+/* 7s bob of the still image. */
+.mini-room-float {
+  animation: 7s ease-in-out infinite mini-room-float;
+}
+@keyframes mini-room-float {
+  0%,
+  to {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Breathing contact shadow under the floor slab's front tip (same 7s phase). */
+.mini-room-shadow {
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), transparent);
+  border-radius: 50%;
+  height: 9%;
+  animation: 7s ease-in-out infinite mini-room-shadow;
+  position: absolute;
+  bottom: 2.25rem;
+  left: 20%;
+  right: 20%;
+}
+@keyframes mini-room-shadow {
+  0%,
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.9);
+  }
+}
+
+/* Step key: lifts while the pointer is anywhere over the door. */
+.mini-room .key {
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.mini-room:hover .key {
+  transform: translateY(-2px);
+}
+.mini-room:focus-visible {
+  outline-offset: 6px;
+  border-radius: 12px;
+  outline: 2px solid var(--focus-ring);
+}
+
+/*
+ * Prompt caret (docs/theme/b.md section 5): a mint block after the
+ * "user@host:~$ whoami" line, as a pseudo-element so the markup is unchanged.
+ * The lab-caret keyframes live in base.css.
+ */
+.hero-prompt::after {
+  content: "";
+  display: inline-block;
+  width: 0.6em;
+  height: 1.15em;
+  margin-left: 0.35em;
+  vertical-align: -0.22em;
+  background: var(--mint);
+  animation: 1.05s steps(1) infinite lab-caret;
+}
+
+/*
+ * Reduced motion: no settle, float or shadow loops and no tilt. The door-hover
+ * key lift is left as is (it out-ranks the reduced-motion .key reset), which
+ * reproduces the original's observed behavior.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .mini-room-float,
+  .mini-room-shadow,
+  .mini-room-tilt,
+  .hero-prompt::after {
+    animation: none;
+  }
+  .mini-room-tilt {
+    transform: none;
+  }
+}
+
+/* Landing scroll cue keyframes (declared by the original stylesheet; no element uses them). */
+@keyframes scroll-cue {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(350%);
+  }
+}

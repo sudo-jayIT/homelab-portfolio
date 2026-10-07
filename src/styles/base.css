@@ -1,0 +1,447 @@
+/*
+ * base.css: global tokens, theme mappings and unlayered global rules.
+ * Owned by Foundation; read-only for builders (request changes via neededFromOthers).
+ *
+ * Everything outside @theme is deliberately UNLAYERED so it beats Tailwind
+ * utilities (which live in @layer utilities). This is load-bearing: for
+ * example `.display { line-height: .9 }` must override `leading-[0.95]`, and
+ * `header { transition: opacity .6s }` must override `transition-all`.
+ * Specs: 02 section 3.7, 01 section 2.4, 04 section 4.1, 05 section 2.1.
+ */
+
+:root {
+  /*
+   * Theme: Mint Terminal (docs/theme/b.md). One accent (mint) on a near-black
+   * green base with neutral green-gray text. The four section accents and
+   * putty all resolve to mint for UI; the tokens stay so a later variant can
+   * split them again. Room art, rack hardware, LEDs, devicons and images keep
+   * their own colours (docs/OWNER-NOTES.md).
+   */
+  --background: #050807;
+  --foreground: #e3ebe7;
+  --mint: #3dfc9a;
+  --mint-hi: #7dffbf;
+  --mint-head: #d4ffe8;
+  --signal: var(--mint);
+  --dusk: var(--mint);
+  --beacon: var(--mint);
+  --sodium: var(--mint);
+  --putty: var(--mint);
+  /* Surfaces */
+  --raised: #070b09;
+  --card: #0a0f0d;
+  --card-glass: rgba(11, 17, 14, 0.8);
+  --footer: #040605;
+  /* Terminal console (intro and shell). */
+  --console: #030605;
+  /* Hairlines: dividers (line) and card edges (line-strong). */
+  --line: rgba(214, 255, 233, 0.075);
+  --line-strong: rgba(214, 255, 233, 0.12);
+  /* Ink and the green-gray ramp. gray-3 is decoration and disabled only. */
+  --title: #eef5f1;
+  --gray-1: #c3cdc8;
+  --gray-2: #8a958f;
+  --gray-3: #56605b;
+  --gray-4: #262d2a;
+  /* Semantic signals (never decoration). */
+  --warn: #f3c969;
+  --alert: #ff6b6b;
+  /* Keycaps (keys.css). */
+  --key-top: #1b211e;
+  --key-bottom: #111513;
+  --key-lip: #060908;
+  --key-light-top: #202825;
+  --key-light-bottom: #151b18;
+  --key-light-lip: #040605;
+  --focus-ring: rgba(61, 252, 154, 0.75);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-putty: var(--putty);
+  --color-sec: var(--sec, #3dfc9a);
+  --color-signal: var(--signal);
+  --color-dusk: var(--dusk);
+  --color-beacon: var(--beacon);
+  --color-sodium: var(--sodium);
+  --color-mint: var(--mint);
+  --color-mint-hi: var(--mint-hi);
+  --color-mint-head: var(--mint-head);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-card: var(--card);
+  --color-raised: var(--raised);
+  --color-title: var(--title);
+  --color-gray-1: var(--gray-1);
+  --color-gray-2: var(--gray-2);
+  --color-gray-3: var(--gray-3);
+  --color-gray-4: var(--gray-4);
+  --color-warn: var(--warn);
+  --color-alert: var(--alert);
+  --color-footer: var(--footer);
+  --color-console: var(--console);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Section accent plumbing: every *-sec utility resolves through --sec. */
+[data-sec="signal"] {
+  --sec: var(--signal);
+}
+[data-sec="dusk"] {
+  --sec: var(--dusk);
+}
+[data-sec="beacon"] {
+  --sec: var(--beacon);
+}
+[data-sec="sodium"] {
+  --sec: var(--sodium);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+::selection {
+  background: rgba(61, 252, 154, 0.28);
+  color: #fff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Display type                                                            */
+/* ---------------------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-archivo), "Arial Narrow", system-ui, sans-serif;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.9;
+}
+
+.sec-title {
+  color: var(--title);
+  font-size: clamp(2.6rem, 13vw, 5.5rem);
+}
+
+/* Landing name lockup (spec 03 section 3.4). Per-line font-stretch is inline. */
+.name-block {
+  width: min(100%, 36rem, 52svh);
+  container-type: inline-size;
+}
+.name-line {
+  color: var(--title);
+  text-shadow: 0.035em 0.045em #0b1812;
+  justify-content: space-between;
+  font-size: 29.7619cqw;
+  line-height: 0.86;
+  display: flex;
+}
+.name-line > span {
+  animation: 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) both name-in;
+  animation-delay: calc(var(--i, 0) * 45ms + 0.15s);
+}
+@keyframes name-in {
+  0% {
+    opacity: 0;
+    transform: translateY(0.3em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+html[data-been-inside] .name-line > span {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .name-line > span {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Small shared utilities                                                  */
+/* ---------------------------------------------------------------------- */
+
+.lab-mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(61, 252, 154, 0.14) 1px, #0000 1px);
+  background-size: 28px 28px;
+}
+
+/* Horizontal scrollers. There is no global scrollbar styling (spec 02 3.7). */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+ * Focus: .key, .mini-room and .lab-hot define their own rings. Every other
+ * focusable element (nav and footer links, contact cards, text buttons, the
+ * inspector close key) gets the same mint ring instead of the browser's
+ * default white one. It sits in @layer base, so the .key rules
+ * (@layer components), outline utilities and the unlayered .mini-room and
+ * .lab-hot rules all still win.
+ */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Parallax (spec 02 section 4.1). --px/--py/--sy are written by SkyMotion  */
+/* on every [data-sky-vars] element. Uses the individual `translate`        */
+/* property so it composes with transform keyframes and rotate/scale utils. */
+/* ---------------------------------------------------------------------- */
+
+.par,
+.par-wrap,
+.par-x {
+  will-change: transform;
+}
+.par {
+  translate: calc(var(--px, 0) * var(--d, 10) * -1px)
+    calc(var(--py, 0) * var(--d, 10) * -1px - var(--sy, 0) * var(--s, 0) * 1px);
+}
+.par-wrap {
+  translate: calc(var(--px, 0) * var(--d, 10) * -1px)
+    calc(var(--py, 0) * var(--d, 10) * -1px - mod(var(--sy, 0) * var(--s, 0) * 1px, var(--wrap)));
+}
+@supports not (translate: 0 mod(10px, 3px)) {
+  .par-wrap {
+    translate: calc(var(--px, 0) * var(--d, 10) * -1px) calc(var(--py, 0) * var(--d, 10) * -1px);
+  }
+}
+.par-x {
+  translate: calc(var(--px, 0) * var(--d, 10) * -1px) 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .par,
+  .par-wrap,
+  .par-x {
+    translate: none;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* LEDs and shared lab keyframes (spec 04 section 4.1, spec 07 section 4.2) */
+/* ---------------------------------------------------------------------- */
+
+.lab-led-act {
+  animation: 1.2s step-end infinite lab-act;
+}
+.lab-led-disk {
+  animation: 3s step-end infinite lab-disk;
+}
+.lab-led-pulse {
+  animation: 3.2s ease-in-out infinite lab-pulse;
+}
+@keyframes lab-act {
+  0% {
+    opacity: 1;
+  }
+  8% {
+    opacity: 0.15;
+  }
+  13% {
+    opacity: 1;
+  }
+  36% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+  61% {
+    opacity: 0.1;
+  }
+  65% {
+    opacity: 1;
+  }
+  71% {
+    opacity: 0.3;
+  }
+  75% {
+    opacity: 1;
+  }
+}
+@keyframes lab-disk {
+  0%,
+  to {
+    opacity: 0.12;
+  }
+  4% {
+    opacity: 1;
+  }
+  7% {
+    opacity: 0.2;
+  }
+  10% {
+    opacity: 1;
+  }
+  13% {
+    opacity: 0.12;
+  }
+  52% {
+    opacity: 0.12;
+  }
+  55% {
+    opacity: 1;
+  }
+  58% {
+    opacity: 0.3;
+  }
+  61% {
+    opacity: 1;
+  }
+  64% {
+    opacity: 0.12;
+  }
+}
+@keyframes lab-pulse {
+  0%,
+  to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes lab-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Used with steps(1): the terminal caret (1.05s) and the CRT panel caret (1s). */
+@keyframes lab-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  to {
+    opacity: 0;
+  }
+}
+@keyframes lab-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* In-scene vinyl (SVG, inside a face matrix): rotate about its own bbox centre. */
+.lab-spin {
+  transform-box: fill-box;
+  transform-origin: 50%;
+  animation: 1.8s linear infinite lab-spin;
+}
+/* Lifted record panel disc (HTML). */
+.lab-disc-spin {
+  animation: 1.8s linear infinite lab-spin;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-led-act,
+  .lab-led-disk,
+  .lab-led-pulse,
+  .lab-spin,
+  .lab-disc-spin {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Header fade (spec 02 section 3.3). Unlayered on purpose: it kills the    */
+/* header's transition-all utility, so background/blur/border swap          */
+/* instantly and only the hide/show fades.                                  */
+/* ---------------------------------------------------------------------- */
+
+header {
+  transition: opacity 0.6s;
+}
+html[data-lab-intro] header,
+html[data-lab-focus] header,
+html[data-lab-zoomed] header {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* View switching and scroll locks (spec 01 section 2.4, spec 05 2.1)       */
+/* ---------------------------------------------------------------------- */
+
+/* Console visible from first paint during the first-visit intro. */
+html[data-opening] #hero [data-term] {
+  opacity: 1 !important;
+}
+
+html[data-view="classic"] #hero,
+html[data-view="room"] #hero ~ *,
+html[data-view="room"] [data-classic] {
+  display: none;
+}
+
+[data-room-sky] {
+  visibility: hidden;
+}
+html[data-view="room"] [data-room-sky] {
+  visibility: visible;
+}
+
+/* The fixed room sky shows through the lab section. */
+#hero {
+  background: 0 0;
+}
+#hero > .bg-gradient-to-b,
+#hero svg[data-cam] > ellipse[fill="url(#lab-halo)"] {
+  display: none;
+}
+
+html[data-view="room"],
+html[data-view="room"] body {
+  overscroll-behavior: none;
+  overflow: hidden;
+}
+html[data-view="room"] #hero {
+  touch-action: none;
+  height: 100svh;
+}
+
+html[data-lab-intro],
+html[data-lab-intro] body {
+  overscroll-behavior: none;
+  overflow: hidden;
+}
+html[data-lab-intro] #hero ~ *,
+html[data-lab-intro] footer {
+  visibility: hidden;
+}
+
+html[data-lab-zoomed] #hero {
+  cursor: grab;
+}
+html[data-lab-zoomed] #hero[data-dragging] {
+  cursor: grabbing;
+}

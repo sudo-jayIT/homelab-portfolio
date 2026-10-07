@@ -1,0 +1,29 @@
+/*
+ * Global stylesheet entry. Owned by Foundation.
+ * Order matters: Tailwind first (its layers), then area files. Area rules
+ * that are not wrapped in @layer are unlayered and beat Tailwind utilities.
+ * Later files win ties among unlayered rules.
+ */
+@import "tailwindcss";
+/* Explicit content root: Next.js's PostCSS integration doesn't give Tailwind's
+ * automatic source-detection enough context to find component files on its
+ * own (confirmed 2026-10-07 — the Tailwind CLI run directly scans fine, but
+ * every utility class silently vanished from every `next build` output,
+ * causing a real production bug: a background canvas with no working
+ * position:fixed/absolute fell back to flow layout, entered a resize feedback
+ * loop, and crashed the tab on iOS Safari). Scanning the project root
+ * explicitly removes the dependency on whatever heuristic was failing.
+ */
+@source "../../";
+@import "../styles/base.css";
+@import "../styles/keys.css";
+@import "../styles/sky.css";
+@import "../styles/chrome.css";
+@import "../styles/hero.css";
+@import "../styles/lab-art.css";
+@import "../styles/lab.css";
+@import "../styles/terminal.css";
+@import "../styles/panels.css";
+@import "../styles/homelab.css";
+@import "../styles/work.css";
+@import "../styles/about.css";

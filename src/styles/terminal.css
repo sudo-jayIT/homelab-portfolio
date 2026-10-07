@@ -1,0 +1,24 @@
+/*
+ * terminal.css: intro terminal and shell extras. Spec 01, docs/theme/b.md 3.9.
+ *
+ * The console is styled entirely with Tailwind utilities on the components in
+ * src/components/lab/terminal/, mirroring the original markup class for class
+ * (scroller, prompt, carets, hidden input, hint row, shell footer). Shared
+ * pieces live elsewhere on purpose:
+ *   - @keyframes lab-caret and lab-fade-in, the html[data-opening] console
+ *     rule, the view switching and the palette tokens: base.css
+ *   - .key / .key-light ("Enter as guest"): keys.css
+ *   - the [data-term] wrapper heights and GSAP tweens: the room engine
+ * Add rules here only for terminal behavior that utilities cannot express.
+ *
+ * Mint Terminal palette for the console, as token utilities (base.css):
+ *   console background     bg-console (#030605)
+ *   body text              text-gray-1
+ *   strong text            text-title/90
+ *   prompt, caret          text-mint, border-mint (same lab-caret 1.05s steps(1))
+ *   [  OK  ], service dots text-mint
+ *   dim lines              text-gray-2
+ *   hints, footer row      text-gray-3, border-line
+ *   errors                 text-alert
+ *   scrollbar              rgba(61, 252, 154, 0.22) on transparent
+ */

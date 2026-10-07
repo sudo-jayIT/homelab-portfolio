@@ -1,0 +1,180 @@
+/*
+ * lab.css: room UI (hotspots, hint markers, tooltip). Owned by B4 (room-engine).
+ * Spec 05 section 3.3. Unlayered on purpose, like the rest of the area sheets.
+ * The .key system lives in keys.css; shared lab keyframes live in base.css.
+ *
+ * Theme: Mint Terminal (docs/theme/b.md section 3.11). Outlines, markers and
+ * the tooltip are UI, so they take the mint accent; the room art underneath
+ * keeps its own palette.
+ */
+
+/* Hotspot polygons. stroke-width is in SVG user units, so the outline
+   thickens as the camera zooms in (intentional). */
+.lab-hot {
+  fill: #0000;
+  stroke: #0000;
+  stroke-width: 1.4px;
+  stroke-linejoin: round;
+  cursor: pointer;
+  pointer-events: all;
+  outline: none;
+  transition:
+    fill 0.2s,
+    stroke 0.2s;
+}
+
+#hero[data-light-left="off"] [data-toggle-light="light-left"],
+#hero[data-light-right="off"] [data-toggle-light="light-right"],
+#hero[data-floor-lamp="off"] [data-toggle-light="floor-lamp"],
+#hero[data-ambient="off"] [data-toggle-light="ambient"] {
+  display: none;
+}
+.lab-hot:hover,
+.lab-hot:focus-visible,
+.lab-hot[data-active] {
+  fill: color-mix(in srgb, var(--mint) 8%, transparent);
+  stroke: color-mix(in srgb, var(--mint) 85%, transparent);
+}
+/* The rack is big: outline only, 3% fill. */
+.lab-hot[data-hot="rack"]:hover,
+.lab-hot[data-hot="rack"][data-active] {
+  fill: color-mix(in srgb, var(--mint) 3%, transparent);
+}
+[data-hotspots="off"] .lab-hot {
+  pointer-events: none;
+}
+
+/* The room occupant (RoomPerson): a soft mint glow on hover/focus, like a hotspot. */
+.lab-person {
+  outline: none;
+  transition: filter 0.2s;
+}
+.lab-person:hover,
+.lab-person:focus-visible {
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--mint) 80%, transparent))
+    drop-shadow(0 0 7px color-mix(in srgb, var(--mint) 45%, transparent));
+}
+
+/* Hint markers (the engine counter-scales each [data-mk] group). */
+.lab-mk-back {
+  fill: rgba(5, 8, 7, 0.62);
+  stroke: color-mix(in srgb, var(--mint) 50%, transparent);
+  stroke-width: 0.9px;
+}
+.lab-mk-dot {
+  fill: var(--mint);
+  animation: 2.8s ease-in-out infinite lab-mk-breathe;
+  animation-delay: inherit;
+}
+.lab-mk-ring {
+  fill: none;
+  stroke: var(--mint);
+  stroke-width: 1px;
+  transform-box: fill-box;
+  transform-origin: 50%;
+  animation: 2.8s ease-out infinite lab-mk-ping;
+  animation-delay: inherit;
+}
+@keyframes lab-mk-breathe {
+  0%,
+  to {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes lab-mk-ping {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  12% {
+    opacity: 0.6;
+  }
+  75%,
+  to {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+/* Tooltip: positioned in px by the camera; sits above the object, or below
+   it ([data-below]) when the object is near the top of the screen. */
+.lab-tip {
+  opacity: 0;
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
+  transform: translate(-50%, calc(-100% - 6px));
+}
+.lab-tip[data-on] {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 10px));
+}
+.lab-tip[data-below] {
+  transform: translate(-50%, 6px);
+}
+.lab-tip[data-below][data-on] {
+  transform: translate(-50%, 10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-mk-dot {
+    animation: none;
+  }
+  .lab-mk-ring {
+    display: none;
+  }
+  .lab-tip,
+  .lab-tip[data-on] {
+    transition: none;
+  }
+}
+
+/* Fan blades rotate within each local isometric face; RGB rings stay fixed. */
+.pc-fan-rotor {
+  transform-origin: 0 0;
+  animation: pc-fan-spin 1.4s linear infinite;
+}
+@keyframes pc-fan-spin { to { transform: rotate(360deg); } }
+
+.pc-explorer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 1fr);
+  width: min(58rem, calc(100vw - 3rem));
+  max-height: calc(100dvh - 10rem);
+  overflow-y: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 1.2rem;
+  background: var(--card);
+  box-shadow: 0 40px 100px -20px #000;
+}
+.pc-explorer-stage { display: grid; align-items: center; background: radial-gradient(ellipse, #9a62ff14, transparent 70%); padding: 1rem; }
+.pc-explorer-model { display: block; width: 100%; max-height: 60dvh; }
+.pc-explorer-details { padding: 2rem 1.5rem; }
+.pc-component { cursor: pointer; outline: none; }
+.pc-component:hover > g > .pc-component-outline,
+.pc-component:focus > g > .pc-component-outline,
+.pc-component.is-selected > g > .pc-component-outline,
+.pc-component:hover > .pc-component-outline,
+.pc-component:focus > .pc-component-outline,
+.pc-component.is-selected > .pc-component-outline { stroke: #3dfc9a; stroke-width: 0.9; }
+.pc-part-key { padding: 0.4rem 0.65rem; border: 1px solid var(--line-strong); border-radius: 0.4rem; font: 11px var(--font-mono); color: var(--gray-2); cursor: pointer; }
+.pc-part-key:hover, .pc-part-key:focus-visible, .pc-part-key[aria-pressed="true"] { color: #d4ffe8; border-color: #3dfc9a; background: #3dfc9a0d; }
+.pc-part-detail { min-height: 10rem; margin-top: 1.5rem; border-top: 1px solid var(--line-strong); padding-top: 1.5rem; }
+@media (max-width: 639px) {
+  .pc-explorer { width: calc(100vw - 2rem); grid-template-columns: 1fr; max-height: calc(100dvh - 9rem); }
+  .pc-explorer-stage { padding: 0.5rem; }
+  .pc-explorer-model { max-height: 32dvh; }
+  .pc-explorer-details { padding: 1rem; }
+  .pc-part-detail { min-height: 8rem; margin-top: 1rem; padding-top: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc-fan-rotor { animation: none; }
+}
+
+.pc-gpu-fan { animation-duration: 0.95s; }
+.pc-case-panel:hover > .pc-component-outline,
+.pc-case-panel:focus-visible > .pc-component-outline,
+.pc-case-panel.is-selected > .pc-component-outline { stroke-width: 0.25; }

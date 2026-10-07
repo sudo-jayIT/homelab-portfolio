@@ -1,0 +1,25 @@
+/*
+ * panels.css: room focus panels. Owned by B6 (room-panels). Spec 05 section 3.4.
+ *
+ * The panels themselves are styled with utilities only (exact classes from the
+ * spec). The rules below are for the /dev/panels preview: they show the panel
+ * flat, as if the lift had finished, over a dimmed backdrop. Unlayered, so they
+ * beat the opacity-0 / invisible utilities the engine animates.
+ */
+
+[data-panel-preview] [data-lift] {
+  opacity: 1;
+}
+[data-panel-preview] [data-chrome] {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Dimmed room: the still (when present) under the scrim, over the theme base
+   (the room view itself sits on --background). */
+.panel-preview-backdrop {
+  background:
+    linear-gradient(rgba(3, 5, 4, 0.68), rgba(3, 5, 4, 0.68)),
+    url("/room/room-still.webp") center / cover no-repeat,
+    radial-gradient(ellipse at 50% 40%, var(--card), var(--background) 70%);
+}
