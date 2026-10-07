@@ -20,14 +20,11 @@ export const CONTACT: ContactContent = {
       external: true,
     },
     {
-      // PLACEHOLDER: GitHub username not provided yet. Set handle and href
-      // (or set href to "" to hide the card).
       key: "github",
       label: "GitHub",
-      handle: "@your-github-handle",
-      href: "https://github.com/",
+      handle: "@sudo-jayIT",
+      href: "https://github.com/sudo-jayIT",
       external: true,
-      placeholder: true,
     },
     { key: "resume", label: "Resume", handle: SITE.resumeFileName, href: SITE.resumeUrl, external: true },
   ],
