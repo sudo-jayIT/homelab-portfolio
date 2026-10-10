@@ -24,6 +24,7 @@ import { Experience } from "@/components/sections/Experience";
 import { Homelab } from "@/components/sections/Homelab";
 import { Projects } from "@/components/sections/Projects";
 import { Websites } from "@/components/sections/Websites";
+import { Writeups } from "@/components/sections/Writeups";
 import { RoomSky } from "@/components/sky/RoomSky";
 import { SkyMotion } from "@/components/sky/SkyMotion";
 import { SECTION_ORDER, type SectionId } from "@/content";
@@ -31,6 +32,7 @@ import { SECTION_ORDER, type SectionId } from "@/content";
 const SECTION_COMPONENTS: Record<SectionId, ComponentType> = {
   projects: Projects,
   homelab: Homelab,
+  writeups: Writeups,
   websites: Websites,
   experience: Experience,
   about: About,

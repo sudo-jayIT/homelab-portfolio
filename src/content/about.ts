@@ -114,6 +114,7 @@ export const CREDENTIALS: Credential[] = [
     date: "Dec 2025",
     note: "Earned Dec 2025",
     thumb: "/certs/networking-certificate.webp",
+    featured: true,
     label: "Reynolds Networking Certificate",
     tip: "Networking Cert.",
     wall: {

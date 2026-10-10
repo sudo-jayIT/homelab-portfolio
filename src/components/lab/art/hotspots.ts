@@ -41,7 +41,7 @@ import {
   CRT_FACE,
   DESK,
   FIREWALL,
-  LAMP,
+  LIGHT_STRIP,
   MAP,
   PHONE,
   PC,
@@ -153,7 +153,7 @@ const DRAFTS: Draft[] = [
     tip: "Toggle desk light",
     points: pts(boxHull(x - 3, 477, 123, 18, 7, 35)),
   })),
-  { id: "floor-lamp", title: "Toggle floor lamp", tip: "Toggle floor lamp", points: pts(boxHull(LAMP.x - 6, LAMP.y - 6, 90, 26, 26, 25)) },
+  { id: "floor-lamp", title: "Toggle light strip", tip: "Toggle light strip", points: pts(boxHull(LIGHT_STRIP.x - 6, LIGHT_STRIP.y - 6, 90, 26, 26, 25)) },
   { id: "ambient", title: "Toggle purple desk lighting", tip: "Toggle purple lighting", points: pts(boxHull(724, 544, 56, 24, 8, 8)) },
   ...certs,
   {

@@ -45,6 +45,10 @@ export const SITE: SiteIdentity = {
 export const SECTION_DEFS: SectionDef[] = [
   { id: "projects", enabled: true, label: "Projects", room: "monitor", accent: "signal", kicker: "Work", title: "Projects", container: "6xl", footer: true },
   { id: "homelab", enabled: true, label: "Homelab", room: "rack", accent: "dusk", kicker: "Self-hosted", title: "Homelab", container: "6xl", footer: true },
+  // Write-ups: holds 5 real entries (see writeups.ts / docs/writeups). Ready to
+  // show — flip `enabled: true` after a clean CT126 build. Review the sanitized
+  // security entries (and fix their open items) before the site goes public.
+  { id: "writeups", enabled: true, label: "Write-ups", room: "monitor", accent: "beacon", kicker: "CTF", title: "Write-ups", container: "6xl", footer: true },
   // Client work: no client sites are listed yet, so the section is off. The
   // content (websites.ts) and the component stay ready to switch back on.
   { id: "websites", enabled: false, label: "Websites", room: "monitor", accent: "sodium", kicker: "Client Work", title: "Websites for Business", container: "6xl", footer: true },

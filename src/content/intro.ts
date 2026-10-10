@@ -92,6 +92,7 @@ export const NMAP_PORTS: Record<SectionId, string> = {
   about: "22/tcp",
   contact: "25/tcp",
   projects: "443/tcp",
+  writeups: "1337/tcp",
   experience: "3306/tcp",
   homelab: "8006/tcp",
   websites: "8443/tcp",

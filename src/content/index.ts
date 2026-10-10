@@ -7,6 +7,7 @@ export * from "./site";
 export * from "./hero";
 export * from "./intro";
 export * from "./projects";
+export * from "./writeups";
 export * from "./homelab";
 export * from "./websites";
 export * from "./experience";

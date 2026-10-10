@@ -22,7 +22,7 @@ import {
   WallABaseboard,
   WallBBaseboard,
 } from "./objects/WallArt";
-import { Lamp, LampShadow } from "./objects/Lamp";
+import { LightStrip, LightStripShadow } from "./objects/LightStrip";
 import { CableBeds } from "./objects/Cables";
 import { DeskBase } from "./objects/Desk";
 import { DeskItemsBase } from "./objects/DeskItems";
@@ -68,11 +68,11 @@ export function RoomBase({ lit = false, viewBox = INITIAL_VIEWBOX }: RoomArtRend
           <Poster />
           <Outlet />
         </g>
-        <LampShadow />
+        <LightStripShadow />
       </g>
       <CableBeds />
       <g data-base="room" opacity={o}>
-        <Lamp />
+        <LightStrip />
       </g>
       <g data-base="desk" opacity={o}>
         <DeskBase />

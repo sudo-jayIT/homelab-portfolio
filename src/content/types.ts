@@ -18,7 +18,7 @@ import type {
  * Every section the page knows how to render. Which ones show, and in what
  * order, is decided by SECTION_DEFS in site.ts (the `enabled` toggles).
  */
-export type SectionId = "projects" | "homelab" | "websites" | "experience" | "about" | "contact";
+export type SectionId = "projects" | "homelab" | "writeups" | "websites" | "experience" | "about" | "contact";
 
 export type Accent = "signal" | "dusk" | "beacon" | "sodium";
 
@@ -275,6 +275,37 @@ export interface Project {
   placeholderFile?: string;
   /** 8.3 file name on the room CRT, e.g. "JUMPBOX.MCP". */
   dosName: string;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Write-ups (CTF / lab walkthroughs)                                        */
+/* ------------------------------------------------------------------------ */
+
+/** Relative difficulty, color-coded on the card badge. */
+export type WriteupDifficulty = "Easy" | "Medium" | "Hard" | "Insane";
+
+/**
+ * One capture-the-flag / lab machine walkthrough. Only ever populate this with
+ * boxes actually solved — a write-up is a claim of skill, so fabricated entries
+ * are resume fraud, not filler.
+ */
+export interface Writeup {
+  slug: string;
+  /** Box / room name, rendered uppercase. 3 to 28 chars. */
+  name: string;
+  /** Where the work lives, e.g. "TryHackMe", "Hack The Box", "Homelab". */
+  platform: string;
+  /** CTF difficulty; omit for non-box work (e.g. a homelab assessment) so the badge is hidden. */
+  difficulty?: WriteupDifficulty;
+  /** One-paragraph summary of the attack path. 110 to 210 chars. */
+  summary: string;
+  /** Technique / tooling tags rendered as chips, in order. 3 to 6 items, 2 to 20 chars. */
+  tags: string[];
+  /**
+   * Link to the full write-up (blog post, GitHub, PDF). "" hides the link
+   * affordance and makes the card non-clickable, like a linkless Project.
+   */
+  link: string;
 }
 
 /* ------------------------------------------------------------------------ */

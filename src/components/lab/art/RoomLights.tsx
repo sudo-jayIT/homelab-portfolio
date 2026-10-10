@@ -17,7 +17,7 @@ import { LightDefs } from "./objects/Defs";
 import { PictureLight, WALL_A_LEN, WALL_B_LEN, WallWash, wallATransform, wallBTransform } from "./objects/Shell";
 import { SetupFloorLights, SetupLights } from "./objects/Setup";
 import { WindowLights } from "./objects/WindowView";
-import { LampLights } from "./objects/Lamp";
+import { LightStripLights } from "./objects/LightStrip";
 import { FirewallAlert, LitCables, Packets, StillPackets } from "./objects/Cables";
 import { DeskLights, STILL_BAR_SCALE } from "./objects/Desk";
 import { DeskItemsLights } from "./objects/DeskItems";
@@ -55,7 +55,7 @@ export function RoomLights({
             ))}
             <PictureLight cx={POSTER.u + POSTER.w / 2} top={POSTER.v} />
           </g>
-          <LampLights />
+          <LightStripLights />
           <SetupFloorLights />
         </g>
         {POOLS.map((p, i) => (

@@ -22,6 +22,7 @@ import { DevControls } from "./DevControls";
  */
 const FILL: Record<SectionId, string> = {
   projects: "min-h-[2275px] md:min-h-[1245px]",
+  writeups: "min-h-[2275px] md:min-h-[1245px]",
   homelab: "min-h-[2873px] md:min-h-[1712px]",
   websites: "min-h-[1914px] md:min-h-[1368px]",
   experience: "min-h-[1778px] md:min-h-[1251px]",

@@ -45,11 +45,10 @@ export const PROJECTS: Project[] = [
     slug: "personal-homelab",
     name: "Personal Homelab",
     description:
-      "A 4-node Proxmox cluster with a quorum device behind an OPNsense edge firewall, joined by Tailscale, running a self-hosted LLM, a NAS, Immich, Home Assistant and a honeypot on segmented networks.",
-    stack: ["Proxmox", "OPNsense", "Tailscale", "NFS", "Honeypot"],
+      "A 4-node Proxmox cluster with a quorum device behind an OPNsense edge firewall, joined by Tailscale, running a self-hosted LLM, a NAS, Immich and Home Assistant on segmented networks.",
+    stack: ["Proxmox", "OPNsense", "Tailscale", "NFS"],
     link: "#homelab",
-    preview: null,
-    placeholderFile: "personal-homelab.png",
+    preview: "/previews/personal-homelab.png",
     dosName: "HOMELAB.CFG",
   },
   {
@@ -59,20 +58,68 @@ export const PROJECTS: Project[] = [
       "A FastAPI backend that turns iPhone voice memos and screenshots into notes, calendar events and reminders, using Whisper, LLM classification and Postgres/pgvector search — via iOS Shortcuts, no native app.",
     stack: ["Python", "FastAPI", "PostgreSQL", "pgvector", "OpenAI Whisper"],
     link: "",
-    preview: null,
-    placeholderFile: "mind-space.png",
+    preview: "/previews/mind-space.png",
     dosName: "MINDSPCE.APP",
   },
   {
     slug: "honeypot-architecture",
     name: "Honeypot & Detection Lab",
     description:
-      "A standalone Proxmox host, kept off the prod cluster so a breakout cannot pivot in, running Cowrie/OpenCanary as bait and a Suricata/Zeek sensor one-way-logging to Wazuh.",
+      "An approved architecture for a standalone Proxmox host, reimaged off the prod cluster so a breakout can't pivot in, designed to run Cowrie/OpenCanary as bait with a Suricata/Zeek sensor one-way-logging to Wazuh.",
     stack: ["Proxmox", "Cowrie", "Suricata", "Zeek", "Wazuh"],
     link: "",
-    preview: null,
-    placeholderFile: "honeypot-architecture.png",
+    preview: "/previews/honeypot-architecture.png",
     dosName: "HONEYPOT.NET",
+  },
+  {
+    slug: "nmap-command-builder",
+    name: "Nmap Command Builder",
+    description:
+      "A Zenmap-style web tool: pick a target, scan type and flags in a form to get a correct nmap command you copy and run yourself — it never runs scans. React + Vite UI, Express API with saved profiles and history.",
+    stack: ["React", "Vite", "Express", "Node.js", "Nmap"],
+    link: "",
+    preview: "/previews/nmap-command-builder.png",
+    dosName: "NMAPBLDR.EXE",
+  },
+  {
+    slug: "homelab-dashboard",
+    name: "Homelab Status Dashboard",
+    description:
+      "A mission-control kiosk for the homelab: a Python poller on a Raspberry Pi 4 TCP-probes a curated list of hosts every 30s and paints status tiles with per-tile latency sparklines on a wall-mounted display.",
+    stack: ["Python", "JavaScript", "Raspberry Pi", "nginx", "Systemd"],
+    link: "",
+    preview: "/previews/homelab-dashboard.png",
+    dosName: "DASHBORD.SYS",
+  },
+  {
+    slug: "android-apk-workflow",
+    name: "Homelab APK Build Pipeline",
+    description:
+      "A Capacitor pipeline that wraps any homelab web app in a thin Android WebView shell, signs every build with one shared keystore so updates install in place, and serves the APKs from a small LAN download page.",
+    stack: ["Capacitor", "Android", "TypeScript", "Bash", "Gradle"],
+    link: "",
+    preview: "/previews/android-apk-workflow.png",
+    dosName: "APKBUILD.BAT",
+  },
+  {
+    slug: "vuln-app-sandbox",
+    name: "Isolated Vulnerable-App Lab",
+    description:
+      "A segregated network on a single-NIC Proxmox host for deliberately-vulnerable VMs: an SDN zone with SNAT plus nftables rules that let guests reach the internet and each other, but never the LAN or the hypervisor.",
+    stack: ["Proxmox", "SDN", "nftables", "Linux", "Segmentation"],
+    link: "",
+    preview: "/previews/vuln-app-sandbox.png",
+    dosName: "SANDBOX.NET",
+  },
+  {
+    slug: "authentik-sso",
+    name: "Centralized SSO Gateway",
+    description:
+      "An Authentik SSO gateway behind a Caddy forward-auth proxy — one login in front of the homelab's self-hosted apps, built with proxy providers, an embedded outpost and per-vhost gating.",
+    stack: ["Authentik", "Caddy", "Forward-Auth", "SSO", "REST API"],
+    link: "",
+    preview: "/previews/authentik-sso.png",
+    dosName: "AUTHSSO.CFG",
   },
 ];
 
@@ -84,9 +131,15 @@ export const PROJECTS: Project[] = [
 export const DEVICON: Record<string, string> = {
   Python: "python",
   JavaScript: "javascript",
+  TypeScript: "typescript",
   "Node.js": "nodejs",
+  React: "react",
+  Vite: "vitejs",
   PostgreSQL: "postgresql",
   Bash: "bash",
   "C++": "cplusplus",
   Linux: "linux",
+  "Raspberry Pi": "raspberrypi",
+  nginx: "nginx",
+  Android: "android",
 };

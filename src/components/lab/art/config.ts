@@ -90,7 +90,8 @@ export const CERT_H = 28;
 /* Furniture placements                                                      */
 /* ------------------------------------------------------------------------ */
 
-export const LAMP = { x: 445, y: 455, base: 2.4, pole: { x: 452, y: 462, w: 3, top: 88 }, shade: { x: 452, y: 462, z0: 94, z1: 110, r0: 12, r1: 8.5 } } as const;
+/** Govee-style corner floor light strip: round weighted base, thin bright pole, rainbow ambient glow. */
+export const LIGHT_STRIP = { x: 445, y: 455, base: 4, r: 9, pole: { x: 452, y: 462, w: 2.6, top: 100 } } as const;
 
 export const DESK = { x: 546, y: 460, w: 260, d: 92, legH: 60, top: 5, z: 65 } as const;
 
@@ -230,7 +231,7 @@ export const PACKETS: PacketDef[] = [
 ];
 
 export const POOLS: { group: PoolGroup; x: number; y: number; r: number; color: LedColor }[] = [
-  { group: "room", x: 456, y: 468, r: 95, color: "warm" },
+  { group: "room", x: 456, y: 468, r: 95, color: "blue" },
   { group: "room", x: 714, y: 520, r: 120, color: "blue" },
   { group: "desk", x: 596, y: 572, r: 95, color: "amber" },
   { group: "myrack", x: 494, y: 652, r: 105, color: "cyan" },
@@ -241,8 +242,8 @@ export const POOLS: { group: PoolGroup; x: number; y: number; r: number; color: 
  * wall wash, cables and packets never paint over furniture.
  */
 export const OCCLUDERS: Vec3[][] = [
-  boxHull(LAMP.x, LAMP.y, 0, 14, 14, LAMP.base),
-  boxHull(LAMP.pole.x, LAMP.pole.y, 0, LAMP.pole.w, LAMP.pole.w, LAMP.pole.top),
+  boxHull(LIGHT_STRIP.x, LIGHT_STRIP.y, 0, LIGHT_STRIP.r * 2, LIGHT_STRIP.r * 2, LIGHT_STRIP.base),
+  boxHull(LIGHT_STRIP.pole.x, LIGHT_STRIP.pole.y, 0, LIGHT_STRIP.pole.w, LIGHT_STRIP.pole.w, LIGHT_STRIP.pole.top),
   boxHull(DESK.x, DESK.y, DESK.z - DESK.top, DESK.w, DESK.d, DESK.top),
   boxHull(550, 479, 0, 34, 61, 58),
   ...[596, 741].flatMap((x) => [boxHull(x - 4, 465, 0, 14, 83, 4), boxHull(x, 496, 4, 8, 11, 56)]),
