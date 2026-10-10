@@ -21,7 +21,7 @@ jobs:
         env:
           GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
         run: |
-          git remote add gitea "https://homelab-ops:${GITEA_TOKEN}@192.168.3.115:3000/homelab-ops/homelab-portfolio.git" || \
-            git remote set-url gitea "https://homelab-ops:${GITEA_TOKEN}@192.168.3.115:3000/homelab-ops/homelab-portfolio.git"
+          git remote add gitea "http://homelab-ops:${GITEA_TOKEN}@192.168.3.115:3000/homelab-ops/homelab-portfolio.git" || \
+            git remote set-url gitea "http://homelab-ops:${GITEA_TOKEN}@192.168.3.115:3000/homelab-ops/homelab-portfolio.git"
           git push gitea --all
           git push gitea --tags
